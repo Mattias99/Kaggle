@@ -4,5 +4,6 @@
 .Ruserdata
 .Rproj
 ./MNIST_digits/Data
-./Stored_Item_Demand_Forecasting_Challenge/Data
+./Store_Item_Demand_Forecasting_Challenge/Data
 ./Titanic/Data
+./Dog_Breeds/Data
