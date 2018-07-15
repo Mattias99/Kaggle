@@ -3,4 +3,6 @@
 .RData
 .Ruserdata
 .Rproj
-././Data
+./MNIST_digits/Data
+./Stored_Item_Demand_Forecasting_Challenge/Data
+./Titanic/Data
