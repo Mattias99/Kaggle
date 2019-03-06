@@ -1,5 +1,8 @@
-#### GGPLOT ####
+#### Correlations Plots ####
 
+
+# Corrplot, correlation on sales grouped by store.
+# Highliy correlated between all stores,
 
 corrplot <- ggcorrplot(
   cor_group,
@@ -12,3 +15,10 @@ corrplot <- ggcorrplot(
   ggtheme = theme_bw,
   title = "Correlogram of Sales"
 )
+
+#### Seasonality check ####
+
+plot.ts(decompose_ts)
+
+plot(decompose_season)
+

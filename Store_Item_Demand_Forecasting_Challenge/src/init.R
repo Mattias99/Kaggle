@@ -10,6 +10,9 @@ library("lintr")
 library("tidyverse")
 library("ggplot2")
 library("ggcorrplot")
+library("mice")
+library("lubridate")
+library("tseries") # Dickey-Fuller test
 
 
 #### VARIABLES ####
@@ -18,18 +21,22 @@ library("ggcorrplot")
 #setwd("E:/Projekt/R-kod/Kaggle/Kaggle/Store_Item_Demand_Forecasting_Challenge")
 setwd("~/Projekt/R/Kaggle/Store_Item_Demand_Forecasting_Challenge")
 
+data <- "src/data/data.R"
+trans <- "src/features/transform.R"
+plot <- "src/visualization/plot.R"
+
 
 #### MAIN ####
 
 
-source("src/data/data.R")
-source("src/features/transform.R")
-source("src/visualization/plot.R")
+source(data)
+source(trans)
+source(plot)
 
 
 #### lintr ####
 
 
-lintr::lint("src/data/data.R")
-lintr::lint("src/features/transform.R")
-lintr::lint("src/visualization/plot.R")
+lintr::lint(data)
+lintr::lint(trans)
+lintr::lint(plot)
