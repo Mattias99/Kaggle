@@ -57,25 +57,14 @@ train_dickey <- train_feature %>%
 #### Preparation before Decompose function ####
 
 
-# Data consisted of one store. Store as a time-series object
+# Data consisted of one store. Store as a time-series object (decompose_ts)
 
 train_decompose <- train_feature %>% 
   filter(store == 1 | store == 1,
          item == 1)
 
-#2013-01-01
-head(train_decompose)
+#### Data for ARIMA, store = 1, item = 1 ####
 
-#2017-12-31
-tail(train_decompose)
-
-# Convert serie to time-series object
-
-decompose_ts <- ts(train_decompose[,4],
-                   frequency = 365,
-                   start = c(2013, 1, 1),
-                   end = c(2017, 12, 31))
-
-# Decompose function
-
-decompose_season <- decompose(decompose_ts)
+train_one <- train_feature %>% 
+  filter(store == 1 | store == 1,
+         item == 1)
