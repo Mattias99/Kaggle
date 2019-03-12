@@ -13,6 +13,7 @@ library("ggcorrplot")
 library("mice")
 library("lubridate")
 library("tseries") # Dickey-Fuller test
+library("magrittr")
 
 
 #### VARIABLES ####
@@ -24,6 +25,8 @@ setwd("~/Projekt/R/Kaggle/Store_Item_Demand_Forecasting_Challenge")
 data <- "src/data/data.R"
 trans <- "src/features/transform.R"
 plot <- "src/visualization/plot.R"
+analyzes <- "src/features/analyzes.R"
+model_arima <- "src/models/arima.R"
 
 
 #### MAIN ####
@@ -31,12 +34,15 @@ plot <- "src/visualization/plot.R"
 
 source(data)
 source(trans)
+source(analyzes)
 source(plot)
-
+source(model_arima)
 
 #### lintr ####
 
 
 lintr::lint(data)
 lintr::lint(trans)
+lintr::lint(analyzes)
 lintr::lint(plot)
+lintr::lint(model_arima)
