@@ -60,11 +60,14 @@ train_dickey <- train_feature %>%
 # Data consisted of one store. Store as a time-series object (decompose_ts)
 
 train_decompose <- train_feature %>% 
-  filter(store == 1 | store == 1,
-         item == 1)
+  filter(store == 1, item == 1)
 
 #### Data for ARIMA, store = 1, item = 1 ####
 
 train_one <- train_feature %>% 
-  filter(store == 1 | store == 1,
-         item == 1)
+  filter(store == 1, item == 1, date < "2017-01-01")
+
+test_one <- train_feature %>%
+  filter(store == 1, item == 1, date > "2016-12-31",
+         date < as.Date("2016-12-31") + 91)
+
