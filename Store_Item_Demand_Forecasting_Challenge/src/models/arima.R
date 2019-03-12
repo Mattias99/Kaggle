@@ -6,27 +6,31 @@
 # Determine ACF and PACF
 
 # Non stationary
-train_one$sales %T>% acf() %>% pacf()
+train_one$sales %T>%
+  acf(main = "Orginal Time-Serie") %>%
+  pacf(main = "Orginal Time-Serie")
 
 # Transform with non-season length
 train_one$sales %>% diff(lag = 1) %T>%
-  acf() %>% pacf()
+  acf(main = "One-Diff Time-Serie") %>%
+  pacf(main = "One-Diff Time-Serie")
 
 # Transform with non-season and season length
 train_one$sales %>% diff(lag = 1) %>% diff(lag = 365) %T>%
-  acf() %>% pacf()
+  acf(main = "One-Diff and Seasonal-Diff") %>%
+  pacf(main = "One-Diff and Seasonal-Diff")
 
 # Line Plot for stationary sales
 train_one$sales %>%
   diff(lag = 1) %>%
-  plot(type = "l")
+  plot(main = "Orginal Time-Serie", type = "l")
   
 
 # Line Plot for season
 train_one$sales %>%
   diff(lag = 1) %>%
   diff(lag = 365) %>%
-  plot(type = "l")
+  plot(main = "One-Diff and Sesonal-Diff", type = "l")
 
 # PACF suggests a AR(5) with seasonal spikes at lag 6, 13, 20, 27
 
@@ -42,4 +46,16 @@ one_arima <- arima(x = train_one$sales,
                    order = c(5, 1, 0),
                    seasonal = list(order = c(3, 0, 0)))
 
-plot(residuals(one_arima), type = "l")
+# Diagnostics, Residual Plot
+plot(residuals(one_arima), type = "l",
+     main = "Residual Plot. Store = 1, Item = 1")
+
+# Prediction
+one_pred <- predict(one_arima, n.ahead = 90)
+
+# Evaluation
+mape(actual = test_one$sales,
+     predicted = one_pred$pred)
+
+plot(x = 1:90, y = one_pred$pred, type = "l")
+lines(x = 1:90, y = test_one$sales, col = "green")
