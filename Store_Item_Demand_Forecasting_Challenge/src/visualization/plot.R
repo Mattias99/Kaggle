@@ -18,7 +18,7 @@ corrplot <- ggcorrplot(
 
 #### Seasonality check ####
 
-plot.ts(decompose_ts)
+
+# Additive seasonality
 
 plot(decompose_season)
-
