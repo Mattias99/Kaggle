@@ -15,6 +15,7 @@ library("lubridate")
 library("tseries") # Dickey-Fuller test
 library("magrittr")
 library("Metrics")
+library("forecast")
 
 
 #### VARIABLES ####
