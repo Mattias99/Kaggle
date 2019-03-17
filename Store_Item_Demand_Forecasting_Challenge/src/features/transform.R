@@ -71,3 +71,33 @@ test_one <- train_feature %>%
   filter(store == 1, item == 1, date > "2016-12-31",
          date < as.Date("2016-12-31") + 91)
 
+#### Covariates / xreg-variables ####
+
+# Transform to one variable/store
+# Covariates must have values on the prediction interval
+
+train_xvar <- spread(train, store, sales) %>%
+  rename_all(paste0, "_store") %>%
+  group_by(item_store)
+
+xreg_var <- train_xvar %>% 
+  select(-one_of("1_store")) %>%
+  filter(item_store == 1, date_store < "2017-01-01")
+
+# Must be converted to matrix (auto.arima xreg)  
+
+xreg_mat <- as.matrix(xreg_var[, -c(1, 2)])
+
+#### Outlier detection and replacement ####
+
+tsoutliers()
+
+
+
+#### TODO - Create dummyvariables for: ####
+
+# Weekdays
+
+# Holidays
+
+# Seasons, i.e. Spring/Atumn/Winter/Summer
