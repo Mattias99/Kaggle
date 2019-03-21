@@ -9,7 +9,7 @@
 #md.pattern(train, plot = FALSE)
 
 
-#### Features ####
+#### Features Engineering ####
 
 
 train_feature <- train %>% 
@@ -18,7 +18,27 @@ train_feature <- train %>%
     Weekday = wday(date, label = TRUE),
     Week = week(date),
     Quarter = quarter(date)
+  ) 
+
+
+# Dummy variables for specifc dates/periods
+# Must be added for test set as well
+
+
+train_new <- cbind(train_feature,
+                   dummy(train_feature$Month, sep = "_"))
+
+
+train_xreg <- train_feature %>%
+  select(
+    starts_with("train_feature_")
   )
+
+# Weekdays
+
+# Holidays
+
+# Seasons, i.e. Spring/Atumn/Winter/Summer
 
 
 #### Frequencies #### 
@@ -88,16 +108,10 @@ xreg_var <- train_xvar %>%
 
 xreg_mat <- as.matrix(xreg_var[, -c(1, 2)])
 
+
 #### Outlier detection and replacement ####
 
-tsoutliers()
 
+# Returns zero outliers
 
-
-#### TODO - Create dummyvariables for: ####
-
-# Weekdays
-
-# Holidays
-
-# Seasons, i.e. Spring/Atumn/Winter/Summer
+train_one_out <- tsoutliers(x = train_one$sales)
