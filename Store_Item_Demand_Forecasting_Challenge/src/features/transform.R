@@ -18,21 +18,16 @@ train_feature <- train %>%
     Weekday = wday(date, label = TRUE),
     Week = week(date),
     Quarter = quarter(date)
-  ) 
+  )
 
 
 # Dummy variables for specifc dates/periods
 # Must be added for test set as well
 
+# Months
 
 train_new <- cbind(train_feature,
                    dummy(train_feature$Month, sep = "_"))
-
-
-train_xreg <- train_feature %>%
-  select(
-    starts_with("train_feature_")
-  )
 
 # Weekdays
 
@@ -84,10 +79,10 @@ train_decompose <- train_feature %>%
 
 #### Data for ARIMA, store = 1, item = 1 ####
 
-train_one <- train_feature %>% 
+train_one <- train_new %>% 
   filter(store == 1, item == 1, date < "2017-01-01")
 
-test_one <- train_feature %>%
+test_one <- train_new %>%
   filter(store == 1, item == 1, date > "2016-12-31",
          date < as.Date("2016-12-31") + 91)
 
@@ -107,6 +102,16 @@ xreg_var <- train_xvar %>%
 # Must be converted to matrix (auto.arima xreg)  
 
 xreg_mat <- as.matrix(xreg_var[, -c(1, 2)])
+
+train_xreg <- train_one %>% 
+  select(starts_with("train_feature_"),
+         -train_feature_jan) %>% 
+  as.matrix()
+
+test_xreg <- test_one %>% 
+  select(starts_with("train_feature_"),
+         -train_feature_jan) %>% 
+  as.matrix()
 
 
 #### Outlier detection and replacement ####

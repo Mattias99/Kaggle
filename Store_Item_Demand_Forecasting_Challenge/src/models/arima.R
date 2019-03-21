@@ -10,12 +10,12 @@ train_one$sales %T>%
   acf(main = "Orginal Time-Serie") %>%
   pacf(main = "Orginal Time-Serie")
 
-# Transform with non-season length
+# Transformation with non-season length
 train_one$sales %>% diff(lag = 1) %T>%
   acf(main = "One-Diff Time-Serie") %>%
   pacf(main = "One-Diff Time-Serie")
 
-# Transform with non-season and season length
+# Transformation with non-season and season length
 train_one$sales %>% diff(lag = 1) %>% diff(lag = 365) %T>%
   acf(main = "One-Diff and Seasonal-Diff") %>%
   pacf(main = "One-Diff and Seasonal-Diff")
@@ -44,18 +44,21 @@ train_one$sales %>%
 
 one_arima <- arima(x = train_one$sales,
                    order = c(5, 1, 0),
-                   seasonal = list(order = c(3, 0, 0)))
+                   seasonal = list(order = c(3, 0, 0),
+                                   period = 7), xreg = train_xreg)
 
 # Diagnostics, Residual Plot
 plot(residuals(one_arima), type = "l",
      main = "Residual Plot. Store = 1, Item = 1")
 
 # Prediction
-one_pred <- predict(one_arima, n.ahead = 90)
+one_pred <- predict(one_arima, n.ahead = 90,newxreg = test_xreg)
 
 # Evaluation
 mape(actual = test_one$sales,
      predicted = one_pred$pred)
 
-plot(x = 1:90, y = one_pred$pred, type = "l")
-lines(x = 1:90, y = test_one$sales, col = "green")
+plot(x = 1:90, y = test_one$sales, col = "green", 
+     type = "l",
+     main = "ARIMA\nStore = 1, Item = 1\nBlack = Prediction")
+lines(x = 1:90,  y = one_pred$pred)
